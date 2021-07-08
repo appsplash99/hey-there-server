@@ -1,3 +1,4 @@
+import consola from 'consola';
 import { connect } from 'mongoose';
 import { mongoSocialMediaDbUri } from './constants';
 
@@ -8,8 +9,8 @@ export const connectToDb = async (): Promise<void> => {
       useNewUrlParser: true,
       useCreateIndex: true,
     });
-    console.log('MongoDB connected sucessfully');
+    consola.success('MongoDB connected sucessfully');
   } catch (error) {
-    console.log('MongoDB connection has failed..', error);
+    consola.error(new Error('MongoDB connection has failed..'), error);
   }
 };
