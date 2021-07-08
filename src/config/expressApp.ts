@@ -4,6 +4,8 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import { apiRoutes } from '../routes';
+import { errorHandler } from '@src/middlewares/catchAllErrors.middleware';
+import { routeNotFound } from '@src/middlewares/routeNotFound.middleware';
 
 // initialize express app
 export const app = express();
@@ -21,3 +23,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // mount api v1 routes
 app.use('/api/', apiRoutes);
+
+// path not found handler
+app.use(routeNotFound);
+
+// errorHandler
+app.use(errorHandler);
