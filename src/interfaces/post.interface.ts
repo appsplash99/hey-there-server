@@ -4,5 +4,5 @@ export interface IPost extends Document {
   userId: string;
   desc?: string;
   img: string;
-  likes: [];
+  likes: string[];
 }
