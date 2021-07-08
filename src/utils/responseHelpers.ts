@@ -23,12 +23,12 @@ export const resJson = (
   statusCode: number,
   success: boolean,
   message: string,
-  error?: Error | 'no error',
+  error?: Error | 'no error' | 'user error',
   data?: any
 ): IResponse => {
   const jsonObj: IJsonObj = { success, message, error: 'no error' };
 
-  if (error !== 'no error') jsonObj.error = error;
+  if (error !== 'no error' && error !== 'user error') jsonObj.error = error;
 
   if (data) jsonObj.response = data;
 
