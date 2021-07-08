@@ -27,10 +27,10 @@ export const updateUser = async (req: IRequest, res: IResponse): Promise<IRespon
       const updatedUser = await User.findByIdAndUpdate(req.params.userId, { $set: req.body });
       return resJson(res, 200, true, 'Account has been updated', 'no error', updatedUser);
     } catch (err) {
-      return resJson(res, 500, false, err);
+      return resJson(res, 500, false, 'Unable to Update User', err);
     }
   } else {
-    return resJson(res, 403, false, 'You can update only your account!');
+    return resJson(res, 403, false, 'You can update only your account!', 'user error');
   }
 };
 
@@ -38,13 +38,13 @@ export const updateUser = async (req: IRequest, res: IResponse): Promise<IRespon
 export const deleteOneUser = async (req: IRequest, res: IResponse) => {
   if (req.body.userId === req.params.userId || req.body.isAdmin) {
     try {
-      await User.findByIdAndDelete(req.params.userId);
-      resJson(res, 200, true, 'Account has been deleted', 'no error');
+      const deletedUser = await User.findByIdAndDelete(req.params.userId);
+      return resJson(res, 200, true, 'Account has been deleted', 'no error', deletedUser);
     } catch (err) {
-      return resJson(res, 500, false, err);
+      return resJson(res, 500, false, 'Unable to Delete Account', err);
     }
   } else {
-    return resJson(res, 403, false, 'You can delete only your account!');
+    return resJson(res, 403, false, 'You can delete only your account!', 'user error');
   }
 };
 
@@ -58,15 +58,14 @@ export const followOneUser = async (req: IRequest, res: IResponse) => {
       if (!user?.followers?.includes(req.body.userId)) {
         if (user) await user.updateOne({ $push: { followers: req.body.userId } });
         if (currentUser) await currentUser.updateOne({ $push: { followings: req.params.userId } });
-        resJson(res, 200, true, 'user has been followed', 'no error');
-      } else {
-        resJson(res, 403, false, 'you allready follow this user', 'no error');
+        return resJson(res, 200, true, 'user has been followed', 'no error');
       }
+      return resJson(res, 403, false, 'you allready follow this user', 'user error');
     } catch (err) {
-      resJson(res, 500, false, 'Unable to follow User', err);
+      return resJson(res, 500, false, 'Unable to follow User', err);
     }
   } else {
-    resJson(res, 403, false, 'you cant follow yourself', 'no error');
+    return resJson(res, 403, false, 'you cant follow yourself', 'user error');
   }
 };
 
@@ -80,14 +79,13 @@ export const unfollowOneUser = async (req: IRequest, res: IResponse) => {
       if (user?.followers?.includes(req.body.userId)) {
         if (user) await user.updateOne({ $pull: { followers: req.body.userId } });
         if (currentUser) await currentUser.updateOne({ $pull: { followings: req.params.userId } });
-        resJson(res, 200, true, 'user has been unfollowed', 'no error');
-      } else {
-        resJson(res, 403, false, 'you dont follow this user', 'no error');
+        return resJson(res, 200, true, 'user has been unfollowed', 'no error');
       }
+      return resJson(res, 403, false, 'you dont follow this user', 'user error');
     } catch (err) {
-      resJson(res, 500, false, 'Un-follow Unsuccessful', err);
+      return resJson(res, 500, false, 'Un-follow Unsuccessful', err);
     }
   } else {
-    resJson(res, 403, false, 'you cant unfollow yourself', 'no error');
+    return resJson(res, 403, false, 'you cant unfollow yourself', 'user error');
   }
 };

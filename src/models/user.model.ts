@@ -1,9 +1,6 @@
 import { Schema, model } from 'mongoose';
-// TODO: remove comments
-// 1. Create an interface representing a document in MongoDB.
 import { IUser } from '@src/interfaces/user.interface';
 
-// 2. Create a Schema corresponding to the document interface.
 export const userSchema = new Schema<IUser>(
   {
     username: { type: String, require: true, min: 3, max: 20, unique: true },
@@ -22,5 +19,4 @@ export const userSchema = new Schema<IUser>(
   { timestamps: true }
 );
 
-// 3. Create a Model.
 export const User = model<IUser>('User', userSchema);
