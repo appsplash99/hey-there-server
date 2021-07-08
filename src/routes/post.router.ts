@@ -5,15 +5,15 @@ import {
   updateOnePost,
   deleteOnePost,
   likeOrDislikeOnePost,
-  // getAllTimelinePosts,
+  getAllTimelinePosts,
 } from '@src/controllers/post.controller';
 
 const router = Router();
 
 router
-  // .get('/timeline', getAllTimelinePosts)
-  .get('/', getOnePost)
-  .post('/:postId', createNewPost)
+  .get('/timeline', getAllTimelinePosts)
+  .post('/', createNewPost)
+  .get('/:postId', getOnePost)
   .post('/:postId', updateOnePost)
   .delete('/:postId', deleteOnePost)
   .post('/:postId/like', likeOrDislikeOnePost);

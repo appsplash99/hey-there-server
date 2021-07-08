@@ -1,10 +1,11 @@
-// import { User } from '../models/user.model';
+import { User } from '../models/user.model';
 import { Post } from '../models/post.model';
 import { IRequest, IResponse } from '@src/interfaces/express.interface';
 import { resJson } from '@src/utils/responseHelpers';
 
 export const createNewPost = async (req: IRequest, res: IResponse) => {
-  const newPost = new Post(req.body);
+  const { userId, desc, img, likes } = req.body;
+  const newPost = new Post({ userId, desc, img, likes });
   try {
     const savedPost = await newPost.save();
     return resJson(res, 200, true, 'Successfully Created New Post', 'no error', savedPost);
@@ -51,12 +52,12 @@ export const likeOrDislikeOnePost = async (req: IRequest, res: IResponse) => {
     if (!post?.likes.includes(req.body.userId)) {
       if (post) {
         const likedPost = await post.updateOne({ $push: { likes: req.body.userId } });
-        return resJson(res, 200, true, 'Liked Post Successfully!', 'no error', likedPost);
+        return resJson(res, 200, true, 'Liked - Post Successfully!', 'no error', likedPost);
       }
     }
     if (post) {
       const dislikedPost = await post.updateOne({ $pull: { likes: req.body.userId } });
-      return resJson(res, 200, true, 'Disliked Post Successfully!', 'no error', dislikedPost);
+      return resJson(res, 200, true, 'Disliked - Post Successfully!', 'no error', dislikedPost);
     }
   } catch (err) {
     return resJson(res, 500, true, 'Unable to Like/Dislike the POst', err);
@@ -72,17 +73,26 @@ export const getOnePost = async (req: IRequest, res: IResponse) => {
   }
 };
 
-// export const getAllTimelinePosts = async (req: IRequest, res: IResponse) => {
-//   try {
-//     const currentUser = await User.findById(req.body.userId);
-//     const userPosts = await Post.find({ userId: currentUser?._id });
-//     const friendPosts = await Promise.all(
-//       currentUser?.followings?.map((friendId: string) => {
-//         return Post.find({ userId: friendId });
-//       })
-//     );
-//     res.json(userPosts.concat(...friendPosts));
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// };
+export const getAllTimelinePosts = async (req: IRequest, res: IResponse) => {
+  try {
+    const currentUser = await User.findById(req.body.userId);
+    const userPosts = await Post.find({ userId: currentUser?._id });
+    if (currentUser?.followings) {
+      const friendPosts = await Promise.all(
+        currentUser?.followings?.map((friendId: string) => {
+          return Post?.find({ userId: friendId });
+        })
+      );
+      return resJson(
+        res,
+        200,
+        true,
+        'Successfully Fetched Timeline Posts',
+        'no error',
+        userPosts.concat(...friendPosts)
+      );
+    }
+  } catch (err) {
+    return resJson(res, 500, false, 'Unable to Fetch Timeline Posts', err);
+  }
+};

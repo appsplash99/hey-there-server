@@ -13,9 +13,13 @@ const router = express.Router();
 router.get('/status', (req: IRequest, res: IResponse) => res.send('OK'));
 
 /** PUBLIC ROUTES */
-router.use('/user', userRoutes);
 router.use('/login', loginRoutes);
-router.use('/post', postRoutes);
 router.use('/register', registerRoutes);
+
+/** PRIVATE ROUTES
+ * TODO: ADD JWT MIDDLEWARE BELOW
+ */
+router.use('/users', userRoutes);
+router.use('/posts', postRoutes);
 
 export { router as apiRoutes };
