@@ -1,7 +1,6 @@
 import Joi, { ValidationResult } from 'joi';
 import { IRequest } from '@src/interfaces/express.interface';
 
-/** TODO: might need to change the type for data */
 export const registerValidation = (data: IRequest['body']): ValidationResult => {
   const schema = Joi.object({
     username: Joi.string().min(3).max(20).required(),
