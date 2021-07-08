@@ -3,7 +3,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
-import { router as apiRoutes } from '../routes';
+import { apiRoutes } from '../routes';
 
 // initialize express app
 export const app = express();
