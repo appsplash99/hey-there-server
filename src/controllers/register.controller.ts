@@ -13,6 +13,10 @@ export const registerNewUser = async (req: IRequest, res: IResponse): Promise<vo
   const emailAlreadyExists = await User.findOne({ email: req.body.email });
   if (emailAlreadyExists) return resJson(res, 400, false, 'Email already Exists');
 
+  /** check if username exists */
+  const usernameAlreadyExists = await User.findOne({ username: req.body.username });
+  if (usernameAlreadyExists) return resJson(res, 400, false, 'Username already Exists');
+
   try {
     // generate new hashed password
     const hashedPassword = await generateHashedPassword(req.body.password);
