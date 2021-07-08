@@ -5,16 +5,16 @@ import { IRequest, IResponse } from '@src/interfaces/express.interface';
 import { generateHashedPassword } from '@src/utils/generateHashedPassword';
 
 export const registerNewUser = async (req: IRequest, res: IResponse): Promise<void | IResponse> => {
-  // validate user before saving to database
+  /** validate user before saving to database */
   const { error } = registerValidation(req.body);
   if (error) return resJson(res, 400, false, error.details[0].message, error);
 
-  // check if email exists
+  /** check if email exists */
   const emailAlreadyExists = await User.findOne({ email: req.body.email });
   if (emailAlreadyExists) return resJson(res, 400, false, 'Email already Exists');
 
   try {
-    // generate new Hashed password
+    // generate new hashed password
     const hashedPassword = await generateHashedPassword(req.body.password);
 
     // create new user
