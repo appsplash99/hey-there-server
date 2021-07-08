@@ -1,9 +1,9 @@
 import { connect } from 'mongoose';
-import { mongoTestDbUri } from './constants';
+import { mongoSocialMediaDbUri } from './constants';
 
 export const connectToDb = async (): Promise<void> => {
   try {
-    await connect(mongoTestDbUri, {
+    await connect(mongoSocialMediaDbUri, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
       useCreateIndex: true,
