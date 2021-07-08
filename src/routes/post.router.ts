@@ -11,7 +11,7 @@ import {
 const router = Router();
 
 router
-  .get('/timeline', getAllTimelinePosts)
+  .get('/timeline/all', getAllTimelinePosts)
   .post('/', createNewPost)
   .get('/:postId', getOnePost)
   .post('/:postId', updateOnePost)
