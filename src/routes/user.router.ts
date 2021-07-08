@@ -12,8 +12,8 @@ const router = Router();
 router
   .get('/:userId', getOneUser)
   .post('/:userId', updateOneUser)
-  .post('/:userId', followOneUser)
-  .post('/:userId', unfollowOneUser)
-  .delete('/:userId', deleteOneUser);
+  .delete('/:userId', deleteOneUser)
+  .post('/:otherUserId/follow', followOneUser)
+  .post('/:otherUserId/unfollow', unfollowOneUser);
 
 export { router as userRoutes };

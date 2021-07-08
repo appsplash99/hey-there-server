@@ -46,16 +46,16 @@ export const deleteOneUser = async (req: IRequest, res: IResponse) => {
 };
 
 export const followOneUser = async (req: IRequest, res: IResponse) => {
-  if (req.body.userId !== req.params.userId) {
+  if (req.body.userId !== req.params.otherUserId) {
     try {
-      const user = await User.findById(req.params.userId);
+      const user = await User.findById(req.params.otherUserId);
       const currentUser = await User.findById(req.body.userId);
       if (!user?.followers?.includes(req.body.userId)) {
         if (user) await user.updateOne({ $push: { followers: req.body.userId } });
-        if (currentUser) await currentUser.updateOne({ $push: { followings: req.params.userId } });
-        return resJson(res, 200, true, 'user has been followed', 'no error');
+        if (currentUser) await currentUser.updateOne({ $push: { followings: req.params.otherUserId } });
+        return resJson(res, 200, true, `You are following user: ${user?.username}`, 'no error');
       }
-      return resJson(res, 403, false, 'you allready follow this user', 'user error');
+      return resJson(res, 403, false, `You allready follow the user: ${user?.username}`, 'user error');
     } catch (err) {
       return resJson(res, 500, false, 'Unable to follow User', err);
     }
@@ -65,16 +65,16 @@ export const followOneUser = async (req: IRequest, res: IResponse) => {
 };
 
 export const unfollowOneUser = async (req: IRequest, res: IResponse) => {
-  if (req.body.userId !== req.params.userId) {
+  if (req.body.userId !== req.params.otherUserId) {
     try {
-      const user = await User.findById(req.params.userId);
+      const user = await User.findById(req.params.otherUserId);
       const currentUser = await User.findById(req.body.userId);
       if (user?.followers?.includes(req.body.userId)) {
         if (user) await user.updateOne({ $pull: { followers: req.body.userId } });
-        if (currentUser) await currentUser.updateOne({ $pull: { followings: req.params.userId } });
-        return resJson(res, 200, true, 'user has been unfollowed', 'no error');
+        if (currentUser) await currentUser.updateOne({ $pull: { followings: req.params.otherUserId } });
+        return resJson(res, 200, true, `You Unfollowed user: ${user.username}`, 'no error');
       }
-      return resJson(res, 403, false, 'you dont follow this user', 'user error');
+      return resJson(res, 403, false, `You don't follow the user: ${user?.username}`, 'user error');
     } catch (err) {
       return resJson(res, 500, false, 'Un-follow Unsuccessful', err);
     }
