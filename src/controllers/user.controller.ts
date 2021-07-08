@@ -58,15 +58,15 @@ export const followOneUser = async (req: IRequest, res: IResponse) => {
       if (!user?.followers?.includes(req.body.userId)) {
         if (user) await user.updateOne({ $push: { followers: req.body.userId } });
         if (currentUser) await currentUser.updateOne({ $push: { followings: req.params.userId } });
-        resJson(res, 200, true,'user has been followed', 'no error');
+        resJson(res, 200, true, 'user has been followed', 'no error');
       } else {
-        resJson(res, 403, false,'you allready follow this user', 'no error');
+        resJson(res, 403, false, 'you allready follow this user', 'no error');
       }
     } catch (err) {
       resJson(res, 500, false, 'Unable to follow User', err);
     }
   } else {
-    resJson(res, 403, false,'you cant follow yourself', 'no error');
+    resJson(res, 403, false, 'you cant follow yourself', 'no error');
   }
 };
 
@@ -80,14 +80,14 @@ export const unfollowOneUser = async (req: IRequest, res: IResponse) => {
       if (user?.followers?.includes(req.body.userId)) {
         if (user) await user.updateOne({ $pull: { followers: req.body.userId } });
         if (currentUser) await currentUser.updateOne({ $pull: { followings: req.params.userId } });
-        resJson(res, 200, true,'user has been unfollowed', 'no error');
+        resJson(res, 200, true, 'user has been unfollowed', 'no error');
       } else {
-        resJson(res, 403, false,'you dont follow this user', 'no error');
+        resJson(res, 403, false, 'you dont follow this user', 'no error');
       }
     } catch (err) {
-      resJson(res, 500, false, 'Un-follow Unsuccessful',err);
+      resJson(res, 500, false, 'Un-follow Unsuccessful', err);
     }
   } else {
-    resJson(res, 403, false,'you cant unfollow yourself'));
+    resJson(res, 403, false, 'you cant unfollow yourself', 'no error');
   }
 };
