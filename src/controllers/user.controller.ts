@@ -3,19 +3,17 @@ import { IRequest, IResponse } from '@src/interfaces/express.interface';
 import { generateHashedPassword } from '@src/utils/generateHashedPassword';
 import { resJson } from '@src/utils/responseHelpers';
 
-// get a user
-export const getOneUser = async (req: IRequest, res: IResponse): Promise<void> => {
+export const getOneUser = async (req: IRequest, res: IResponse): Promise<IResponse> => {
   try {
     const { userId } = req.params;
     const user = await User.findOne({ _id: userId });
-    res.json({ success: true, message: 'user data loaded', user });
-  } catch (error) {
-    res.json({ success: false, message: 'Unable to load data', error });
+    return resJson(res, 200, true, 'user data loaded', 'no error', user);
+  } catch (err) {
+    return resJson(res, 200, false, 'Unable to load data', err);
   }
 };
 
-// update user
-export const updateUser = async (req: IRequest, res: IResponse): Promise<IResponse> => {
+export const updateOneUser = async (req: IRequest, res: IResponse): Promise<IResponse> => {
   if (req.body.userId === req.params.userId || req.body.isAdmin) {
     if (req.body.password)
       try {
@@ -34,7 +32,6 @@ export const updateUser = async (req: IRequest, res: IResponse): Promise<IRespon
   }
 };
 
-// delete user
 export const deleteOneUser = async (req: IRequest, res: IResponse) => {
   if (req.body.userId === req.params.userId || req.body.isAdmin) {
     try {
@@ -47,8 +44,6 @@ export const deleteOneUser = async (req: IRequest, res: IResponse) => {
     return resJson(res, 403, false, 'You can delete only your account!', 'user error');
   }
 };
-
-// follow one User
 
 export const followOneUser = async (req: IRequest, res: IResponse) => {
   if (req.body.userId !== req.params.userId) {
@@ -68,8 +63,6 @@ export const followOneUser = async (req: IRequest, res: IResponse) => {
     return resJson(res, 403, false, 'you cant follow yourself', 'user error');
   }
 };
-
-// unfollow a user
 
 export const unfollowOneUser = async (req: IRequest, res: IResponse) => {
   if (req.body.userId !== req.params.userId) {
