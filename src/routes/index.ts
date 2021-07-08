@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 // Routes
-import { router as userRoutes } from './user.router';
+import { userRoutes } from './user.router';
 
 // initialize router
 export const router = express.Router();

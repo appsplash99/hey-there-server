@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { UserModel } from '../models/user.model';
+import { IRequest, IResponse } from '@src/interfaces/express.interface';
 
 export const addNewUser = async (req: Request, res: Response): Promise<Response> => {
   try {
@@ -21,5 +22,17 @@ export const addNewUser = async (req: Request, res: Response): Promise<Response>
   } catch (error) {
     console.log('failed to save user', error);
     return res.status(500).json({ success: false });
+  }
+};
+
+export const getUser = async (req: IRequest, res: IResponse): Promise<void> => {
+  // get a user
+  try {
+    const { userId } = req;
+    console.log(userId);
+    const user = await UserModel.findOne({ _id: userId });
+    res.json({ success: true, message: 'user data loaded', user });
+  } catch (error) {
+    res.json({ success: false, message: 'Unable to load data', error });
   }
 };
