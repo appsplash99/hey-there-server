@@ -6,7 +6,7 @@ import {
   deleteOnePost,
   likeOrDislikeOnePost,
   getAllTimelinePosts,
-} from '@src/controllers/post.controller';
+} from '../controllers/post.controller';
 
 const router = Router();
 

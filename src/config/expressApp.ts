@@ -4,8 +4,8 @@ import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import { apiRoutes } from '../routes';
-import { errorHandler } from '@src/middlewares/catchAllErrors.middleware';
-import { routeNotFound } from '@src/middlewares/routeNotFound.middleware';
+import { errorHandler } from '../middlewares/catchAllErrors.middleware';
+import { routeNotFound } from '../middlewares/routeNotFound.middleware';
 
 // initialize express app
 export const app = express();

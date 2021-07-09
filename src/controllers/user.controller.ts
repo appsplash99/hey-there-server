@@ -1,7 +1,7 @@
 import { User } from '../models/user.model';
-import { IRequest, IResponse } from '@src/interfaces/express.interface';
-import { generateHashedPassword } from '@src/utils/generateHashedPassword';
-import { resJson } from '@src/utils/responseHelpers';
+import { IRequest, IResponse } from '../interfaces/express.interface';
+import { generateHashedPassword } from '../utils/generateHashedPassword';
+import { resJson } from '../utils/responseHelpers';
 
 export const getOneUser = async (req: IRequest, res: IResponse): Promise<IResponse> => {
   try {

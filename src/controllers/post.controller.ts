@@ -1,7 +1,7 @@
 import { User } from '../models/user.model';
 import { Post } from '../models/post.model';
-import { IRequest, IResponse } from '@src/interfaces/express.interface';
-import { resJson } from '@src/utils/responseHelpers';
+import { IRequest, IResponse } from '../interfaces/express.interface';
+import { resJson } from '../utils/responseHelpers';
 
 export const createNewPost = async (req: IRequest, res: IResponse) => {
   const { userId, desc, img, likes } = req.body;

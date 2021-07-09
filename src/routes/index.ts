@@ -1,10 +1,10 @@
 import express from 'express';
 // Routes
 import { userRoutes } from './user.router';
-import { loginRoutes } from '@src/routes/login.router';
-import { registerRoutes } from '@src/routes/register.router';
-import { postRoutes } from '@src/routes/post.router';
-import { IRequest, IResponse } from '@src/interfaces/express.interface';
+import { loginRoutes } from './login.router';
+import { registerRoutes } from './register.router';
+import { postRoutes } from './post.router';
+import { IRequest, IResponse } from '../interfaces/express.interface';
 
 // initialize router
 const router = express.Router();

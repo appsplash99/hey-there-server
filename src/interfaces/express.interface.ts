@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { IUser } from '@src/interfaces/user.interface';
+import { IUser } from './user.interface';
 
 export interface IRequest extends Request {
   userId?: IUser;

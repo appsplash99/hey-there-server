@@ -5,7 +5,7 @@ import {
   deleteOneUser,
   followOneUser,
   unfollowOneUser,
-} from '@src/controllers/user.controller';
+} from '../controllers/user.controller';
 
 const router = Router();
 
