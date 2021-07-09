@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Express Mongoose Typescript EsLint Prettier Starter Template",
   "scripts": {
-    "dev": "nodemon",
+    "dev": "node build/src/server.js",
     "start": "npm run build && node -r ts-node/register/transpile-only -r tsconfig-paths/register ./build/src/server.js",
     "build": "rm -rf build && tsc -p ."
   },
